@@ -50,7 +50,7 @@ public class Main {
                 System.out.println("keyStroke.getKeyType(): " + type
                          + " keyStroke.getCharacter(): " + c);
 
-
+                Brick oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                 switch (keyStroke.getKeyType()) {
                      case ArrowDown:
                          brick.moveDown();
@@ -64,7 +64,7 @@ public class Main {
                 }
 
                 // == REMOVE OLD BRICKS ON SCREEN ==
-          //      printOnScreen(terminal, oldBrick);
+                printOnScreen(terminal, oldBrick);
 
             }
 
