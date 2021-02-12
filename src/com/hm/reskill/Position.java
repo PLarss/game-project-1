@@ -22,6 +22,15 @@ public class Position {
         System.out.println("Position.Java move down");
     }
 
+    public void moveLeft(){
+        this.x = this.x - 1;
+        System.out.println("Position.Java move left");
+    }
+
+    public void moveRight(){
+        this.x = this.x + 1;
+        System.out.println("Position.Java move right");
+    }
     public void setX(int x) {
         this.x = x;
     }
