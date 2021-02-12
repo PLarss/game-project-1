@@ -21,6 +21,16 @@ public class Brick {
         System.out.println("Brick.Java move down");
     }
 
+    public void moveLeft (){
+        this.position.moveLeft();
+        System.out.println("Brick.Java move left");
+    }
+
+    public void moveRight (){
+        this.position.moveRight();
+        System.out.println("Brick.Java move right");
+    }
+
     public char getChar(){
         return this.position.getaChar();
     }

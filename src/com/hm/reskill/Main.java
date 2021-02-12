@@ -22,7 +22,6 @@ public class Main {
             GamePlan gamePlan = new GamePlan();
             gamePlan.printGamePlan(terminal);
 
-
             int random = ThreadLocalRandom.current().nextInt(16,26);
             Brick brick = new Brick(new Position(random,1, '\u2593'),TetraBrick.L_SHAPE);
 
@@ -32,45 +31,40 @@ public class Main {
 
                 // == Refresh screen for new round ==
                 printOnScreen(terminal, brick);
-                Brick oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
 
                 KeyStroke keyStroke = null;
+                do {
+                    Thread.sleep(900);
+                    keyStroke = terminal.pollInput();
+                    Brick oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
+                    brick.moveDown();
+                    printOnScreen(terminal,brick);
+                    printOnScreen(terminal, oldBrick);
+                } while (keyStroke == null);
+
                 // TODO: CREATE A VARIABLE FOR Thread.sleep to increase gamespeed over time.
                 // TODO: CREATE SOME SORT OF POINTS MECHANISM
-                Thread.sleep(700);
 
-                if (terminal.pollInput() != null) {
-
-                    keyStroke = terminal.pollInput();
-
-                    KeyType type = keyStroke.getKeyType();
-                    Character c = keyStroke.getCharacter();
-                    System.out.println("keyStroke.getKeyType(): " + type
-                            + " keyStroke.getCharacter(): " + c);
+                KeyType type = keyStroke.getKeyType();
+                Character c = keyStroke.getCharacter();
+                System.out.println("keyStroke.getKeyType(): " + type
+                         + " keyStroke.getCharacter(): " + c);
 
 
-                    switch (keyStroke.getKeyType()) {
-                        case ArrowDown:
-                            brick.moveDown();
-                            break;
-           /*         case ArrowUp:
-                        brickPosition1.getY() -=1;
-                        break;
-                    case ArrowLeft:
-                        brickPosition1.getY() -=1;
-                        break;
-                    case ArrowRight:
-                        brickPosition1.getX() +=1;
-                        break; */
-                    }
-
-
-                } else {
-                    brick.moveDown();
+                switch (keyStroke.getKeyType()) {
+                     case ArrowDown:
+                         brick.moveDown();
+                         break;
+                      case ArrowLeft:
+                         brick.moveLeft();
+                         break;
+                     case ArrowRight:
+                         brick.moveRight();
+                          break;
                 }
 
                 // == REMOVE OLD BRICKS ON SCREEN ==
-                printOnScreen(terminal, oldBrick);
+          //      printOnScreen(terminal, oldBrick);
 
             }
 
