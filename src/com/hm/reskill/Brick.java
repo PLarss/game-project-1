@@ -16,24 +16,22 @@ public class Brick {
     }
 
     // == Functions ==
-    public void moveDown (){
+    public void moveDown() {
         this.position.moveDown();
-        System.out.println("Brick.Java move down");
     }
 
-    public void moveLeft (){
+    public void moveLeft() {
         this.position.moveLeft();
-        System.out.println("Brick.Java move left");
     }
 
-    public void moveRight (){
+    public void moveRight() {
         this.position.moveRight();
-        System.out.println("Brick.Java move right");
     }
 
-    public char getChar(){
+    public char getChar() {
         return this.position.getaChar();
     }
+
     // == GETTERS / SETTERS ==
     public Position getPosition() {
         return position;

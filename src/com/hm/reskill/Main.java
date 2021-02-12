@@ -22,6 +22,7 @@ public class Main {
             GamePlan gamePlan = new GamePlan();
             gamePlan.printGamePlan(terminal);
 
+
             Brick brick = createNewBrick();
             Brick oldBrick = null;
             boolean continueReadingInput = true;
@@ -33,10 +34,19 @@ public class Main {
 
                 KeyStroke keyStroke = null;
                 do {
-                    Thread.sleep(900);
+                    Thread.sleep(50);
                     keyStroke = terminal.pollInput();
-                    moveDown(terminal, brick);
+                    boolean createNew = moveDown(terminal, brick, gamePlan);
+                    if (createNew) {
+                        // TODO: Create new and dispose old;
+                        brick = null;
+                        oldBrick = null;
+                        brick = createNewBrick();
+                    }
+
                 } while (keyStroke == null);
+
+
 
                 // TODO: CREATE A VARIABLE FOR Thread.sleep to increase gamespeed over time.
                 // TODO: CREATE SOME SORT OF POINTS MECHANISM
@@ -49,20 +59,15 @@ public class Main {
                 oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                 switch (keyStroke.getKeyType()) {
                      case ArrowDown:
-                         moveDown(terminal, brick);
+                         moveDown(terminal, brick, gamePlan);
                          break;
                       case ArrowLeft:
                          moveLeft(terminal, brick);
                          break;
                      case ArrowRight:
                          moveRight(terminal, brick);
-                         //brick.moveRight();
-                          break;
+                         break;
                 }
-
-                // == REMOVE OLD BRICKS ON SCREEN ==
-                // printOnScreen(terminal, brick, oldBrick);
-
             }
 
             // == Close some resources ==
@@ -77,10 +82,26 @@ public class Main {
         }
     }
 
-    public static void moveDown(Terminal terminal, Brick brick) throws Exception{
+    public static boolean isColliding(Brick brick, GamePlan gamePlan) {
+        boolean isColliding = gamePlan.isColliding(brick);
+
+
+        return isColliding;
+    }
+
+    public static boolean moveDown(Terminal terminal, Brick brick, GamePlan gamePlan) throws Exception{
         Brick oldBrick = getOldBrick(brick);
-        brick.moveDown();
+        // TODO: ADD COLLISION TEST
+        if (!isColliding(brick, gamePlan)) {
+            brick.moveDown();
+            gamePlan.setCurrentStatus(brick, oldBrick);
+        } else {
+            // TODO: IF COLLISION TEST = TRUE, skapa en ny brick och börja om.
+            // Thread.sleep(10000);
+            return true;
+        }
         printOnScreen(terminal, brick, oldBrick);
+        return false;
     }
 
     public static void moveRight(Terminal terminal, Brick brick) throws Exception {
@@ -110,7 +131,6 @@ public class Main {
             terminal.setCursorPosition(oldBrick.getPosition().getX(), oldBrick.getPosition().getY());
             terminal.putCharacter(oldBrick.getChar());
         }
-
         terminal.setCursorPosition(brick.getPosition().getX(), brick.getPosition().getY());
         terminal.putCharacter(brick.getChar());
         terminal.flush();
