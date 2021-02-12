@@ -24,22 +24,21 @@ public class Main {
 
             int random = ThreadLocalRandom.current().nextInt(16,26);
             Brick brick = new Brick(new Position(random,1, '\u2593'),TetraBrick.L_SHAPE);
-
+            Brick oldBrick = null;
             boolean continueReadingInput = true;
 
             while(continueReadingInput == true) {
 
                 // == Refresh screen for new round ==
-                printOnScreen(terminal, brick);
+                printOnScreen(terminal, brick, oldBrick);
 
                 KeyStroke keyStroke = null;
                 do {
                     Thread.sleep(900);
                     keyStroke = terminal.pollInput();
-                    Brick oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
+                    oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                     brick.moveDown();
-                    printOnScreen(terminal,brick);
-                    printOnScreen(terminal, oldBrick);
+                    printOnScreen(terminal, brick, oldBrick);
                 } while (keyStroke == null);
 
                 // TODO: CREATE A VARIABLE FOR Thread.sleep to increase gamespeed over time.
@@ -50,7 +49,7 @@ public class Main {
                 System.out.println("keyStroke.getKeyType(): " + type
                          + " keyStroke.getCharacter(): " + c);
 
-                Brick oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
+                oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                 switch (keyStroke.getKeyType()) {
                      case ArrowDown:
                          brick.moveDown();
@@ -64,7 +63,7 @@ public class Main {
                 }
 
                 // == REMOVE OLD BRICKS ON SCREEN ==
-                printOnScreen(terminal, oldBrick);
+                printOnScreen(terminal, brick, oldBrick);
 
             }
 
@@ -78,12 +77,14 @@ public class Main {
         finally {
 
         }
-
-
-
-
     }
-    public static void printOnScreen(Terminal terminal, Brick brick) throws Exception{
+
+    public static void printOnScreen(Terminal terminal, Brick brick, Brick oldBrick) throws Exception{
+        if (oldBrick != null) {
+            terminal.setCursorPosition(oldBrick.getPosition().getX(), oldBrick.getPosition().getY());
+            terminal.putCharacter(oldBrick.getChar());
+        }
+
         terminal.setCursorPosition(brick.getPosition().getX(), brick.getPosition().getY());
         terminal.putCharacter(brick.getChar());
         terminal.flush();
