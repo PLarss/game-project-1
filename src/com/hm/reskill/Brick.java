@@ -18,6 +18,10 @@ public class Brick {
         return position;
     }
 
+    public void moveDown (){
+        this.position.moveDown();
+        System.out.println("Brick.Java move down");
+    }
     public void setPosition(Position position) {
         this.position = position;
     }

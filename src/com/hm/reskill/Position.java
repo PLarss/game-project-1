@@ -11,6 +11,23 @@ public class Position {
         this.aChar = aChar;
     }
 
+    public void moveDown(){
+        this.y = this.y + 1;
+        System.out.println("Position.Java move down");
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setaChar(char aChar) {
+        this.aChar = aChar;
+    }
+
     public int getX() {
         return x;
     }

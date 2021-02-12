@@ -1,5 +1,7 @@
 package com.hm.reskill;
 
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
@@ -12,7 +14,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-        // == Lanterna Labs settings ==
 
         try {
             DefaultTerminalFactory tf = new DefaultTerminalFactory();
@@ -26,10 +27,41 @@ public class Main {
             int random = ThreadLocalRandom.current().nextInt(16,26);
             Position brickPosition1 = new Position(random,1,'\u2593');
             Brick brick1 = new Brick(brickPosition1,'\u2593',TetraBrick.L_SHAPE);
-            terminal.setCursorPosition(brickPosition1.getX(), brickPosition1.getY());
-            terminal.putCharacter(brick1.getBrickChar());
-            terminal.flush();
 
+            boolean continueReadingInput = true;
+
+            while(continueReadingInput == true) {
+                terminal.setCursorPosition(brickPosition1.getX(), brickPosition1.getY());
+                terminal.putCharacter(brick1.getBrickChar());
+                terminal.flush();
+
+                KeyStroke keyStroke = null;
+                do {
+                    Thread.sleep(5);
+                    keyStroke = terminal.pollInput();
+                } while (keyStroke == null);
+
+                KeyType type = keyStroke.getKeyType();
+                Character c = keyStroke.getCharacter();
+                System.out.println("keyStroke.getKeyType(): " + type
+                        + " keyStroke.getCharacter(): " + c);
+
+                switch (keyStroke.getKeyType()){
+                    case ArrowDown:
+                        brick1.moveDown();
+                        break;
+           /*         case ArrowUp:
+                        brickPosition1.getY() -=1;
+                        break;
+                    case ArrowLeft:
+                        brickPosition1.getY() -=1;
+                        break;
+                    case ArrowRight:
+                        brickPosition1.getX() +=1;
+                        break; */
+                }
+            }
+            terminal.close();
         } catch (
                 Exception e) {
             System.out.println(e.getMessage());
