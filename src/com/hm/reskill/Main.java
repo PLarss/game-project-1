@@ -46,6 +46,13 @@ public class Main {
                     System.out.println("keyStroke.getKeyType(): " + type
                             + " keyStroke.getCharacter(): " + c);
 
+                    int oldPosX = brick1;
+                    int oldPosY = 0;
+
+                    terminal.setCursorPosition(oldPosX, oldPosY);
+                    terminal.putCharacter(' ');
+
+
                     switch (keyStroke.getKeyType()) {
                         case ArrowDown:
                             brick1.moveDown();
@@ -60,6 +67,8 @@ public class Main {
                         brickPosition1.getX() +=1;
                         break; */
                     }
+
+
                 } else {
                     brick1.moveDown();
                 }
