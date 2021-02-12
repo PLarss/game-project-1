@@ -12,7 +12,10 @@ public class Position {
         this.aChar = aChar;
     }
 
-
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public void moveDown(){
         this.y = this.y + 1;

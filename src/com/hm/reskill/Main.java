@@ -5,57 +5,53 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static com.googlecode.lanterna.TextColor.ANSI.BLUE;
 
 public class Main {
 
-
     public static void main(String[] args) {
 
+
         try {
+            // == INIT Google Lanterna ==
             DefaultTerminalFactory tf = new DefaultTerminalFactory();
             Terminal terminal = tf.createTerminal();
-     //       terminal.setBackgroundColor(BLUE);
             terminal.setCursorVisible(false);
 
+            // == INIT GAMEPLAN ==
             GamePlan gamePlan = new GamePlan();
             gamePlan.printGamePlan(terminal);
 
+
             int random = ThreadLocalRandom.current().nextInt(16,26);
-            Position brickPosition1 = new Position(random,1,'\u2593');
-            Brick brick1 = new Brick(brickPosition1,'\u2593',TetraBrick.L_SHAPE);
+            Brick brick = new Brick(new Position(random,1, '\u2593'),TetraBrick.L_SHAPE);
 
             boolean continueReadingInput = true;
 
             while(continueReadingInput == true) {
-                terminal.setCursorPosition(brickPosition1.getX(), brickPosition1.getY());
-                terminal.putCharacter(brick1.getBrickChar());
-                terminal.flush();
+
+                // == Refresh screen for new round ==
+                printOnScreen(terminal, brick);
+                Brick oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
 
                 KeyStroke keyStroke = null;
-                Thread.sleep(300);
-                if (terminal.pollInput() != null) {
-                    keyStroke = terminal.pollInput();
+                // TODO: CREATE A VARIABLE FOR Thread.sleep to increase gamespeed over time.
+                // TODO: CREATE SOME SORT OF POINTS MECHANISM
+                Thread.sleep(700);
 
+                if (terminal.pollInput() != null) {
+
+                    keyStroke = terminal.pollInput();
 
                     KeyType type = keyStroke.getKeyType();
                     Character c = keyStroke.getCharacter();
                     System.out.println("keyStroke.getKeyType(): " + type
                             + " keyStroke.getCharacter(): " + c);
 
-                    int oldPosX = brick1;
-                    int oldPosY = 0;
-
-                    terminal.setCursorPosition(oldPosX, oldPosY);
-                    terminal.putCharacter(' ');
-
 
                     switch (keyStroke.getKeyType()) {
                         case ArrowDown:
-                            brick1.moveDown();
+                            brick.moveDown();
                             break;
            /*         case ArrowUp:
                         brickPosition1.getY() -=1;
@@ -70,15 +66,32 @@ public class Main {
 
 
                 } else {
-                    brick1.moveDown();
+                    brick.moveDown();
                 }
+
+                // == REMOVE OLD BRICKS ON SCREEN ==
+                printOnScreen(terminal, oldBrick);
+
             }
+
+            // == Close some resources ==
+
             terminal.close();
         } catch (
                 Exception e) {
             System.out.println(e.getMessage());
         }
+        finally {
+
+        }
 
 
+
+
+    }
+    public static void printOnScreen(Terminal terminal, Brick brick) throws Exception{
+        terminal.setCursorPosition(brick.getPosition().getX(), brick.getPosition().getY());
+        terminal.putCharacter(brick.getChar());
+        terminal.flush();
     }
 }
