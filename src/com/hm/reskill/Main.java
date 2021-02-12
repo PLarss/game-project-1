@@ -36,20 +36,20 @@ public class Main {
                 terminal.flush();
 
                 KeyStroke keyStroke = null;
-                do {
-                    Thread.sleep(5);
+                Thread.sleep(300);
+                if (terminal.pollInput() != null) {
                     keyStroke = terminal.pollInput();
-                } while (keyStroke == null);
 
-                KeyType type = keyStroke.getKeyType();
-                Character c = keyStroke.getCharacter();
-                System.out.println("keyStroke.getKeyType(): " + type
-                        + " keyStroke.getCharacter(): " + c);
 
-                switch (keyStroke.getKeyType()){
-                    case ArrowDown:
-                        brick1.moveDown();
-                        break;
+                    KeyType type = keyStroke.getKeyType();
+                    Character c = keyStroke.getCharacter();
+                    System.out.println("keyStroke.getKeyType(): " + type
+                            + " keyStroke.getCharacter(): " + c);
+
+                    switch (keyStroke.getKeyType()) {
+                        case ArrowDown:
+                            brick1.moveDown();
+                            break;
            /*         case ArrowUp:
                         brickPosition1.getY() -=1;
                         break;
@@ -59,6 +59,9 @@ public class Main {
                     case ArrowRight:
                         brickPosition1.getX() +=1;
                         break; */
+                    }
+                } else {
+                    brick1.moveDown();
                 }
             }
             terminal.close();
