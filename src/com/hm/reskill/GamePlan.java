@@ -9,11 +9,11 @@ public class GamePlan {
 
     private List<Position> gameplan;
     private char[][] currentStatus = {
-            {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
-            {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
-            {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
-            {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
-            {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
+            {' ', ' ', ' ', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
+            {' ', ' ', ' ', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
+            {' ', ' ', ' ', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
+            {' ', ' ', ' ', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
+            {' ', ' ', ' ', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
             {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
             {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
             {'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c', 'c'},
@@ -92,5 +92,9 @@ public class GamePlan {
                 this.currentStatus[oldBrick.getPosition().getY() - 2][oldBrick.getPosition().getX() - 16] = ' ';
             }
         }
+    }
+
+    public char[][] getCurrentStatus() {
+        return currentStatus;
     }
 }

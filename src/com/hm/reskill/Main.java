@@ -41,6 +41,7 @@ public class Main {
                         // TODO: Create new and dispose old;
                         brick = null;
                         oldBrick = null;
+                        removeFullRows(terminal, gamePlan);
                         brick = createNewBrick();
                     }
 
@@ -80,6 +81,17 @@ public class Main {
         finally {
 
         }
+    }
+
+    public static void removeFullRows(Terminal terminal, GamePlan gamePlan) throws Exception{
+        // TODO: uppdatera arrayen i GamePlan.java för att ta bort en rad. Se till att flytta ner allt oxå.
+
+        // TODO: när den nya arrayen är uppdaterad i Gameplan.java så rita ut den i Lanterna (nu är det nog bra om alla 'c' är borta i arrayen.)
+        // här är en array. hoppa till alla positioner och sedan skriv ut vår '\2593' när hela loopen är genomspolad så kan man avsluta med terminal.flush
+        gamePlan.getCurrentStatus();
+        terminal.setCursorPosition();
+        terminal.putCharacter();
+        terminal.flush();
     }
 
     public static boolean isColliding(Brick brick, GamePlan gamePlan) {
