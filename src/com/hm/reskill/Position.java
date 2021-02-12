@@ -23,12 +23,16 @@ public class Position {
     }
 
     public void moveLeft(){
-        this.x = this.x - 1;
+        if (this.x > 16) {
+            this.x = this.x - 1;
+        }
         System.out.println("Position.Java move left");
     }
 
     public void moveRight(){
-        this.x = this.x + 1;
+        if (this.x < 25) {
+            this.x = this.x + 1;
+        }
         System.out.println("Position.Java move right");
     }
     public void setX(int x) {

@@ -22,8 +22,7 @@ public class Main {
             GamePlan gamePlan = new GamePlan();
             gamePlan.printGamePlan(terminal);
 
-            int random = ThreadLocalRandom.current().nextInt(16,26);
-            Brick brick = new Brick(new Position(random,1, '\u2593'),TetraBrick.L_SHAPE);
+            Brick brick = createNewBrick();
             Brick oldBrick = null;
             boolean continueReadingInput = true;
 
@@ -36,9 +35,7 @@ public class Main {
                 do {
                     Thread.sleep(900);
                     keyStroke = terminal.pollInput();
-                    oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
-                    brick.moveDown();
-                    printOnScreen(terminal, brick, oldBrick);
+                    moveDown(terminal, brick);
                 } while (keyStroke == null);
 
                 // TODO: CREATE A VARIABLE FOR Thread.sleep to increase gamespeed over time.
@@ -52,18 +49,19 @@ public class Main {
                 oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                 switch (keyStroke.getKeyType()) {
                      case ArrowDown:
-                         brick.moveDown();
+                         moveDown(terminal, brick);
                          break;
                       case ArrowLeft:
-                         brick.moveLeft();
+                         moveLeft(terminal, brick);
                          break;
                      case ArrowRight:
-                         brick.moveRight();
+                         moveRight(terminal, brick);
+                         //brick.moveRight();
                           break;
                 }
 
                 // == REMOVE OLD BRICKS ON SCREEN ==
-                printOnScreen(terminal, brick, oldBrick);
+                // printOnScreen(terminal, brick, oldBrick);
 
             }
 
@@ -77,6 +75,34 @@ public class Main {
         finally {
 
         }
+    }
+
+    public static void moveDown(Terminal terminal, Brick brick) throws Exception{
+        Brick oldBrick = getOldBrick(brick);
+        brick.moveDown();
+        printOnScreen(terminal, brick, oldBrick);
+    }
+
+    public static void moveRight(Terminal terminal, Brick brick) throws Exception {
+        Brick oldBrick = getOldBrick(brick);
+        brick.moveRight();
+        printOnScreen(terminal, brick, oldBrick);
+    }
+
+    public static void moveLeft(Terminal terminal, Brick brick) throws Exception {
+        Brick oldBrick = getOldBrick(brick);
+        brick.moveLeft();
+        printOnScreen(terminal, brick, oldBrick);
+    }
+
+    public static Brick getOldBrick(Brick currentBrick) {
+        Brick oldBrick = new Brick(new Position(currentBrick.getPosition().getX(), currentBrick.getPosition().getY(), ' '));
+        return oldBrick;
+    }
+
+    public static Brick createNewBrick() {
+        Brick brick = new Brick(new Position(ThreadLocalRandom.current().nextInt(16,26),1, '\u2593'),TetraBrick.L_SHAPE);
+        return brick;
     }
 
     public static void printOnScreen(Terminal terminal, Brick brick, Brick oldBrick) throws Exception{
