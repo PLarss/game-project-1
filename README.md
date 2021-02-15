@@ -28,7 +28,7 @@
 |                                                                                                         |
 |       +------------------------------------------------------------------------------------------+      |
 |                                                                                                         |
-|            **Game Controls**                                                                                |
+|            Game Controls                                                                                |
 |              Mo^e right - Right Arrrow                                                                  |
 |              Move left -  Left Arrow                                                                    |
 |              Move Down -  Down Arrow                                                                    |
