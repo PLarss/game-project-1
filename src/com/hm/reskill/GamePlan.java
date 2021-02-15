@@ -82,6 +82,20 @@ public class GamePlan {
         return false;
     }
 
+    public boolean isFullRow(Brick brick) {
+        // == WE have an offset between UI and Char array of 16, always use it when doing calutations for Collision ==
+        for (int i = 23; i >= 23; i--) {
+            for (int j = 16; j < 24;j++){
+               if (Character.compare(currentStatus[brick.getPosition().getY() - 1][brick.getPosition().getX() - 16], brick.getChar()) == 0) {
+                    return true;
+                }
+            }
+        }
+        System.out.println("\n");
+        return false;
+    }
+
+
     public void setCurrentStatus(Brick brick, Brick oldBrick) {
         // == WE have an offset between UI and Char array of 16, always use it when doing calutations for Collision ==
         if (brick != null) {

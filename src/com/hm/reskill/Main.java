@@ -5,12 +5,12 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
     public static void main(String[] args) {
-
 
         try {
             // == INIT Google Lanterna ==
@@ -48,7 +48,6 @@ public class Main {
                 } while (keyStroke == null);
 
 
-
                 // TODO: CREATE A VARIABLE FOR Thread.sleep to increase gamespeed over time.
                 // TODO: CREATE SOME SORT OF POINTS MECHANISM
 
@@ -56,6 +55,17 @@ public class Main {
                 Character c = keyStroke.getCharacter();
              //   System.out.println("keyStroke.getKeyType(): " + type
              //            + " keyStroke.getCharacter(): " + c);
+
+
+                // == Avsluta programmet om man matar in q
+                if (c == Character.valueOf('q')) {
+                    continueReadingInput = false;
+                    printMessage(terminal);
+                    Thread.sleep(1500);
+                    terminal.bell();
+                    terminal.close();
+                }
+
 
                 oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                 switch (keyStroke.getKeyType()) {
@@ -157,6 +167,20 @@ public class Main {
         }
         terminal.setCursorPosition(brick.getPosition().getX(), brick.getPosition().getY());
         terminal.putCharacter(brick.getChar());
+        terminal.flush();
+    }
+
+    public static void printMessage(Terminal terminal) throws Exception {
+        terminal.putCharacter('G');
+        terminal.putCharacter('A');
+        terminal.putCharacter('M');
+        terminal.putCharacter('E');
+        terminal.putCharacter(' ');
+        terminal.putCharacter('O');
+        terminal.putCharacter('V');
+        terminal.putCharacter('E');
+        terminal.putCharacter('R');
+        terminal.putCharacter('!');
         terminal.flush();
     }
 }

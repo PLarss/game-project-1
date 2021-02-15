@@ -4,7 +4,7 @@ public class Position {
     private int x;
     private int y;
     private char aChar;
-    private int[] cord;
+  //  private int[] cord;
 
     public Position(int x, int y, char aChar) {
         this.x = x;
