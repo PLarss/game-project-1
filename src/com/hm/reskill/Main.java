@@ -1,5 +1,6 @@
 package com.hm.reskill;
 
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -17,6 +18,7 @@ public class Main {
             DefaultTerminalFactory tf = new DefaultTerminalFactory();
             Terminal terminal = tf.createTerminal();
             terminal.setCursorVisible(false);
+            terminal.setForegroundColor(TextColor.ANSI.YELLOW);
 
             // == INIT GAMEPLAN ==
             GamePlan gamePlan = new GamePlan();
@@ -34,7 +36,7 @@ public class Main {
 
                 KeyStroke keyStroke = null;
                 do {
-                    Thread.sleep(50);
+                    Thread.sleep(100);
                     keyStroke = terminal.pollInput();
                     boolean createNew = moveDown(terminal, brick, gamePlan);
                     if (createNew) {
@@ -61,7 +63,7 @@ public class Main {
                 if (c == Character.valueOf('q')) {
                     continueReadingInput = false;
                     printMessage(terminal);
-                    Thread.sleep(1500);
+                    Thread.sleep(3000);
                     terminal.bell();
                     terminal.close();
                 }
@@ -181,6 +183,15 @@ public class Main {
         terminal.putCharacter('E');
         terminal.putCharacter('R');
         terminal.putCharacter('!');
+        terminal.putCharacter(' ');
+        terminal.putCharacter('S');
+        terminal.putCharacter('C');
+        terminal.putCharacter('O');
+        terminal.putCharacter('R');
+        terminal.putCharacter('E');
+        terminal.putCharacter(' ');
+        terminal.putCharacter('1');
+        terminal.putCharacter('0');
         terminal.flush();
     }
 }
