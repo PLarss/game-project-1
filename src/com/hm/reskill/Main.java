@@ -28,6 +28,7 @@ public class Main {
             Brick brick = createNewBrick();
             Brick oldBrick = null;
             boolean continueReadingInput = true;
+            printMessageTitle(terminal);
 
             while(continueReadingInput == true) {
 
@@ -184,6 +185,7 @@ public class Main {
         terminal.putCharacter('R');
         terminal.putCharacter('!');
         terminal.putCharacter(' ');
+        terminal.putCharacter(' ');
         terminal.putCharacter('S');
         terminal.putCharacter('C');
         terminal.putCharacter('O');
@@ -192,6 +194,21 @@ public class Main {
         terminal.putCharacter(' ');
         terminal.putCharacter('1');
         terminal.putCharacter('0');
+        terminal.flush();
+    }
+
+    public static void printMessageTitle(Terminal terminal) throws Exception {
+        terminal.putCharacter('T');
+        terminal.putCharacter('E');
+        terminal.putCharacter('T');
+        terminal.putCharacter('R');
+        terminal.putCharacter('A');
+        terminal.putCharacter(' ');
+        terminal.putCharacter('G');
+        terminal.putCharacter('A');
+        terminal.putCharacter('M');
+        terminal.putCharacter('E');
+
         terminal.flush();
     }
 }
