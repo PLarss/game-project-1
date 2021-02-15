@@ -22,7 +22,7 @@ public class Main {
             GamePlan gamePlan = new GamePlan();
             gamePlan.printGamePlan(terminal);
 
-
+            // == Skapa ny bricka
             Brick brick = createNewBrick();
             Brick oldBrick = null;
             boolean continueReadingInput = true;
@@ -54,8 +54,8 @@ public class Main {
 
                 KeyType type = keyStroke.getKeyType();
                 Character c = keyStroke.getCharacter();
-                System.out.println("keyStroke.getKeyType(): " + type
-                         + " keyStroke.getCharacter(): " + c);
+             //   System.out.println("keyStroke.getKeyType(): " + type
+             //            + " keyStroke.getCharacter(): " + c);
 
                 oldBrick = new Brick(new Position(brick.getPosition().getX(), brick.getPosition().getY(), ' '));
                 switch (keyStroke.getKeyType()) {
@@ -63,16 +63,17 @@ public class Main {
                          moveDown(terminal, brick, gamePlan);
                          break;
                       case ArrowLeft:
-                         moveLeft(terminal, brick);
+                         moveLeft(terminal, brick, gamePlan);
                          break;
                      case ArrowRight:
-                         moveRight(terminal, brick);
+                         moveRight(terminal, brick, gamePlan);
                          break;
                 }
+            // TODO: CHECK IF FULLROWS AND REMOVE ROW
+
             }
 
             // == Close some resources ==
-
             terminal.close();
         } catch (
                 Exception e) {
@@ -86,11 +87,12 @@ public class Main {
     public static void removeFullRows(Terminal terminal, GamePlan gamePlan) throws Exception{
         // TODO: uppdatera arrayen i GamePlan.java för att ta bort en rad. Se till att flytta ner allt oxå.
 
-        // TODO: när den nya arrayen är uppdaterad i Gameplan.java så rita ut den i Lanterna (nu är det nog bra om alla 'c' är borta i arrayen.)
-        // här är en array. hoppa till alla positioner och sedan skriv ut vår '\2593' när hela loopen är genomspolad så kan man avsluta med terminal.flush
+        // TODO: när den nya arrayen är uppdaterad i Gameplan.java så rita ut den i Lanterna
+        // här är en array. hoppa till alla positioner och sedan skriv ut vår '\2593' när hela loopen är genomspolad
+        // så kan man avsluta med terminal.flush
         gamePlan.getCurrentStatus();
-        terminal.setCursorPosition();
-        terminal.putCharacter();
+        //terminal.setCursorPosition();
+        //terminal.putCharacter();
         terminal.flush();
     }
 
@@ -103,12 +105,10 @@ public class Main {
 
     public static boolean moveDown(Terminal terminal, Brick brick, GamePlan gamePlan) throws Exception{
         Brick oldBrick = getOldBrick(brick);
-        // TODO: ADD COLLISION TEST
         if (!isColliding(brick, gamePlan)) {
             brick.moveDown();
             gamePlan.setCurrentStatus(brick, oldBrick);
         } else {
-            // TODO: IF COLLISION TEST = TRUE, skapa en ny brick och börja om.
             // Thread.sleep(10000);
             return true;
         }
@@ -116,16 +116,28 @@ public class Main {
         return false;
     }
 
-    public static void moveRight(Terminal terminal, Brick brick) throws Exception {
+    public static boolean moveRight(Terminal terminal, Brick brick, GamePlan gamePlan) throws Exception {
         Brick oldBrick = getOldBrick(brick);
-        brick.moveRight();
+        if (!isColliding(brick, gamePlan)) {
+            brick.moveRight();
+            gamePlan.setCurrentStatus(brick, oldBrick);
+        } else {
+            return true;
+        }
         printOnScreen(terminal, brick, oldBrick);
+        return false;
     }
 
-    public static void moveLeft(Terminal terminal, Brick brick) throws Exception {
+    public static boolean moveLeft(Terminal terminal, Brick brick, GamePlan gamePlan) throws Exception {
         Brick oldBrick = getOldBrick(brick);
-        brick.moveLeft();
+        if (! isColliding(brick, gamePlan)){
+            brick.moveLeft();
+            gamePlan.setCurrentStatus(brick, oldBrick);
+        } else{
+            return true;
+        }
         printOnScreen(terminal, brick, oldBrick);
+        return false;
     }
 
     public static Brick getOldBrick(Brick currentBrick) {
